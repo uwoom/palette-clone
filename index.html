@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="public/logo.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Palette Clone</title>
+    <link rel="stylesheet" href="public/style.css"/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
+</head>
+<body>
+<header id="logo">
+    <img src="public/logo.svg" alt="Palette Clone Logo">
+    <span>Palette Clone</span>
+</header>
+<main id="app">
+    <div id="image-zone-container">
+    <div id="upload-container">
+        <p id="explanatory-text">Upload an image and generate a color palette from it. Perfect if you want to
+            copy the style of a picture or drawing or make a custom image look like your favorite movie.</p>
+            <div class="image-drop-zone" id="image-drop-zone-1">
+                <h2>Drop the source image here</h2>
+            </div>
+            <input type="file" id="imageInput" accept="image/png, image/jpg, image/jpeg" hidden>
+            <label for="imageInput" class="image-upload-button">
+               <span class="material-symbols-outlined">
+                 image
+               </span>
+                Choose a Photo
+            </label>
+            <label id="capture-btn" class="image-upload-button">
+                <span class="material-symbols-outlined">
+                 photo_camera
+               </span>
+                Capture Photo
+            </label>
+            <label id="take-photo-btn" class="image-upload-button">
+                Take Photo
+            </label>
+        </div>
+        <video id="camera" autoplay></video>
+        <canvas id="image-canvas"></canvas>
+    </div>
+
+</main>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+:root {
+    font-family:Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    color: #3c3a3a;
+    background: rgba(209, 203, 175, 0.75);
+    text-align: center;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+}
+
+h2 {
+    font-size: 25px;
+    font-weight: 500;
+    letter-spacing: -1.9px;
+}
+
+#logo {
+    margin: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logo img {
+    width: 80px;
+    height: 80px;
+}
+
+#logo span {
+    margin-left: 10px;
+    font-size: 40px;
+    font-weight: 400;
+}
+
+#image-zone-container {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    margin: 10px;
+}
+
+#upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin-left: 5%;
+}
+
+#image-canvas{
+    display: none;
+    width: 50%;
+    object-fit: cover;
+    margin-right: 5%;
+    border: 3px solid #3c3a3a;
+    border-radius: 10px;
+}
+
+#camera {
+    display: none;
+    width: 50%;
+    object-fit: cover;
+    margin-right: 30px;
+}
+
+#take-photo-btn {
+    display: none;
+}
+
+#explanatory-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: justify;
+}
+
+.image-drop-zone {
+    margin: 10px;
+    border: 3px dashed #3c3a3a;
+    min-height: 100px;
+    max-height: 300px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    z-index: 1;
+}
+.image-drop-zone.drag-over {
+    background: rgba(179, 170, 129, 0.75);
+    color: rgba(239, 238, 225, 0.75);
+    border-color: rgba(225, 224, 201, 0.75);
+    border-radius: 30px;
+}
+
+.image-upload-button {
+    display: inline-flex;
+    margin: 5px;
+    padding: 10px;
+    color: #3c3a3a;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -1.2px;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    gap: 5px;
+}
+.image-upload-button:hover {
+    cursor: pointer;
+    color: rgb(112, 108, 95);
+}
+
+#image-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+
