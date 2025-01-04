@@ -19,31 +19,37 @@
     <div id="upload-container">
         <p id="explanatory-text">Upload an image and generate a color palette from it. Perfect if you want to
             copy the style of a picture or drawing or make a custom image look like your favorite movie.</p>
-            <div class="image-drop-zone" id="image-drop-zone-1">
+        <div class="image-drop-zone" id="image-drop-zone">
                 <h2>Drop the source image here</h2>
-            </div>
-            <input type="file" id="imageInput" accept="image/png, image/jpg, image/jpeg" hidden>
-            <label for="imageInput" class="image-upload-button">
-               <span class="material-symbols-outlined">
-                 image
-               </span>
-                Choose a Photo
-            </label>
-            <label id="capture-btn" class="image-upload-button">
-                <span class="material-symbols-outlined">
-                 photo_camera
-               </span>
-                Capture Photo
-            </label>
-            <label id="take-photo-btn" class="image-upload-button">
-                Take Photo
-            </label>
         </div>
+        <input type="file" id="imageInput" accept="image/png, image/jpg, image/jpeg" hidden>
+        <label for="imageInput" id="choose-photo-btn" class="image-upload-button">
+            <span class="material-symbols-outlined">
+                image
+            </span>
+                Choose a Photo
+        </label>
+        <label id="capture-btn" class="image-upload-button">
+            <span class="material-symbols-outlined">
+                 photo_camera
+            </span>
+                Capture Photo
+        </label>
+        <label id="take-photo-btn" class="image-upload-button">
+                Take Photo
+        </label>
+        <h2>Generate Palette</h2>
+        <span class="generate-palette-text">Enter how many different colors you want in your palette</span>
+        <label for="number-of-colors">
+        </label><input type="number" placeholder = "Enter number between 1 and 15" id="number-of-colors" min="1" max="15">
+        <button id="generate-palette-btn">Generate </button>
+    </div>
         <video id="camera" autoplay></video>
         <canvas id="image-canvas"></canvas>
     </div>
 
 </main>
 <script type="module" src="src/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 </body>
 </html>

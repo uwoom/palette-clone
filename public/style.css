@@ -47,24 +47,28 @@ h2 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
-    margin-left: 5%;
+    width: 35%;
+    margin-left: 15%;
+    gap: 15px;
 }
 
 #image-canvas{
-    display: none;
-    width: 50%;
+    display: block;
+    width: 35%;
+
     object-fit: cover;
-    margin-right: 5%;
+    margin-right: 15%;
     border: 3px solid #3c3a3a;
     border-radius: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 #camera {
     display: none;
-    width: 50%;
+    width: 35%;
     object-fit: cover;
-    margin-right: 30px;
+    margin-right: 15%;
 }
 
 #take-photo-btn {
@@ -72,19 +76,18 @@ h2 {
 }
 
 #explanatory-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    box-sizing: border-box;
+    width: 80%;
     border-radius: 10px;
-    padding: 15px;
     text-align: justify;
 }
 
 .image-drop-zone {
-    margin: 10px;
     border: 3px dashed #3c3a3a;
-    min-height: 100px;
+    min-height: 150px;
     max-height: 300px;
+    width: 80%;
+    box-sizing: border-box;
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -93,16 +96,17 @@ h2 {
     padding: 20px;
     z-index: 1;
 }
-.image-drop-zone.drag-over {
-    background: rgba(179, 170, 129, 0.75);
-    color: rgba(239, 238, 225, 0.75);
-    border-color: rgba(225, 224, 201, 0.75);
-    border-radius: 30px;
+.image-drop-zone.drag-over,
+.image-drop-zone:hover{
+    border-color: #575353;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: rgba(209, 203, 175, 0.75);
+    border-radius: 50px;
 }
 
 .image-upload-button {
     display: inline-flex;
-    margin: 5px;
     padding: 10px;
     color: #3c3a3a;
     font-size: 18px;
@@ -112,7 +116,6 @@ h2 {
     justify-content: center;
     background: transparent;
     border: none;
-    cursor: pointer;
     gap: 5px;
 }
 .image-upload-button:hover {
@@ -126,6 +129,50 @@ h2 {
     align-items: center;
     justify-content: center;
     margin: 10px;
+}
+
+#number-of-colors {
+    width: 80%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 2px solid #575353;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: center;
+    color: #333;
+    background-color: rgba(209, 203, 175, 0.75);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.generate-palette-text {
+    width: 80%;
+    margin: 10px;
+    text-align: justify;
+}
+
+#number-of-colors:focus {
+    border-color: #1b1c1f;
+    box-shadow: 0 0 8px rgb(51, 51, 51);
+    outline: none;
+}
+
+#generate-palette-btn {
+    width: 80%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    background-color: #c64a2c;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+#generate-palette-btn:hover {
+    background-color: #9e3e26;
+    box-shadow: 0 0 8px rgb(51, 51, 51);
+    cursor: pointer;
 }
 
 
