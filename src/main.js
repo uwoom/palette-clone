@@ -24,25 +24,21 @@ let currentlySelectedHexCode = null;
 
 //the object used to display the color picker box on the screen.
 const colorPicker = new iro.ColorPicker("#picker", {
-    width: 250,
-    color: "rgb(255, 0, 0)",
-    border: "none",
-    layout: [
-        {
-            component: iro.ui.Box,
-        },
-        {
-            component: iro.ui.Slider,
-            options: {
-                id: 'hue-slider',
-                sliderType: 'hue'
-            }
+    width: 250, color: "rgb(255, 0, 0)", border: "none", layout: [{
+        component: iro.ui.Box,
+    }, {
+        component: iro.ui.Slider, options: {
+            id: 'hue-slider', sliderType: 'hue'
         }
-    ]
+    }]
 });
 
 let hexValueCopy = null;
 
+/*
+when hovering above a displayed hex-value, the text 'Copy' will be displayed to indicate to the user,
+that he can copy the hex-code by clicking on it.
+ */
 palette.addEventListener('mouseover', (e) => {
     if (e.target.classList.contains('hex-value')) {
         hexValueCopy = e.target.textContent;
@@ -56,10 +52,30 @@ palette.addEventListener('mouseout', (e) => {
     }
 });
 
+/*
+copies the currently clicked hex-code to clipboard.
+ */
+palette.addEventListener('click', (e) => {
+    if (e.target.classList.contains('hex-value')) {
+        navigator.clipboard.writeText(hexValueCopy);
+        showSnackbar();
+    }
+})
 
-generatePaletteBtn.addEventListener('click', e => {
+/**
+ * used to display snackbar after copy action.
+ * Code taken from https://www.w3schools.com/howto/howto_js_snackbar.asp.
+ */
+function showSnackbar() {
+    let snackbarElement = document.getElementById('snackbar');
+    snackbarElement.className = 'show';
+    setTimeout(function () {
+        snackbarElement.className = snackbarElement.className.replace("show", "");
+    }, 3000);
+}
 
-    //remove previous palette.
+
+generatePaletteBtn.addEventListener('click', () => {//remove previous palette.
     palette.innerHTML = '';
 
     console.log(img.width);
@@ -69,22 +85,21 @@ generatePaletteBtn.addEventListener('click', e => {
             palette.appendChild(createPaletteColor(paletteColor));
         }
     }
-
     hexElements = document.querySelectorAll('.hex-value');
-    alert(`number of hex elements: ${hexElements.length}`)
 })
+
 
 //changes the selected color (and its adjacent hex code) to match the color that is selected
 //in the color picker.
 applyPickerBtn.addEventListener('click', e => {
     currentlySelectedColor.style.backgroundColor = `${colorPicker.color.hexString}`;
     currentlySelectedHexCode.innerHTML = `${colorPicker.color.hexString}`;
-    colorPickerContainer.style.display = 'none';
+    colorPickerContainer.style.visibility = 'hidden';
 })
 
 //closes the color picker without changing the selected color.
 cancelPickerBtn.addEventListener('click', e => {
-    colorPickerContainer.style.display = 'none';
+    colorPickerContainer.style.visibility = 'hidden';
 })
 
 function createPaletteColor(color) {
@@ -117,9 +132,8 @@ function createPaletteColor(color) {
 
 function initialiseColorPicker(colorHexValue) {
     colorPicker.color.hexString = colorHexValue;
-    colorPickerContainer.style.display = 'flex';
+    colorPickerContainer.style.visibility = 'visible';
 }
-
 
 
 /**
@@ -184,10 +198,13 @@ inputFile.addEventListener('change', uploadImage);
 generatePaletteBtn.addEventListener('click', () => {
 })
 
+/**
+ * Renders the image currently in inputFile.files onto canvas.
+ */
 function uploadImage() {
     canvas.style.display = 'block';
     const file = inputFile.files[0];
-    if (file) {
+    if (file && validImageInput(file)) {
         img.src = URL.createObjectURL(file);
 
         img.onload = function () {
@@ -200,13 +217,28 @@ function uploadImage() {
     }
 }
 
-//converts the color thief input to a hex value for display, taken from their website
+/**
+ * Checks if the file is of the type 'image/png', 'image/jpg' or  'image/jpeg'. If not false is returned and an
+ * alert message displayed.
+ * Otherwise, true is returned.
+ * @param file the file to inspect.
+ */
+function validImageInput(file) {
+    const validTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+    if (!validTypes.includes(file.type)) {
+        alert("Invalid type " + file.type);
+        return false;
+    }
+    return true;
+}
+
+//converts the color thief input to a hex value for display, taken from their website.
 function rgbToHex(decimals) {
     return `#${decimals.map((d) => d.toString(16).padStart(2, '0')).join('')}`;
 }
 
 
-//add drag and drop logic for dropping the source image onto the page
+//add drag and drop logic for dropping the source image onto the website.
 imageDropZone.addEventListener('dragover', (e) => {
     e.preventDefault()
     imageDropZone.classList.add('drag-over');
@@ -224,6 +256,33 @@ imageDropZone.addEventListener('drop', (e) => {
 })
 
 
+/**
+ Displays the section with the given section-id on the screen if the section id is valid.
+ @param sectionId the id of the section to display.
+ **/
+window.showSection = function (sectionId) {
+
+    //remove previous section from screen
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    //make previously selected button the not selected button.
+    document.querySelectorAll('.navbar-btn').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+
+    const activeSection = document.getElementById(sectionId);
+
+    if (activeSection) {
+        activeSection.classList.add('active');
+    }
+
+    const activeButton = document.querySelector(`.navbar-btn[onclick="showSection('${sectionId}')"]`);
+    if (activeButton) {
+        activeButton.classList.add('selected');
+    }
+}
 
 
 
