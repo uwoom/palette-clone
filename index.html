@@ -48,10 +48,21 @@
             <div id="palette" class="palette"></div>
         </div>
 
-        <div id="picker" class="color-picker"></div>
     </div>
         <video id="camera" autoplay></video>
         <canvas id="image-canvas"></canvas>
+    </div>
+    <div class="color-picker-container" id="color-picker-container">
+        <h2 class="h2-on-white">Color Picker</h2>
+        <div id="picker" class="color-picker"></div>
+        <div class="buttons-container">
+            <button id="apply-picker-button" class="color-picker-button">
+                Apply
+            </button>
+            <button id="cancel-picker-button" class="color-picker-button">
+                Cancel
+            </button>
+        </div>
     </div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>

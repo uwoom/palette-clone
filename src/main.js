@@ -7,15 +7,26 @@ const imageDropZone = document.getElementById('image-drop-zone');
 const inputFile = document.getElementById('imageInput');
 const choosePhotoBtn = document.getElementById('choose-photo-btn');
 const generatePaletteBtn = document.getElementById('generate-palette-btn');
+const colorPickerContainer = document.getElementById('color-picker-container');
+const applyPickerBtn = document.getElementById('apply-picker-button');
+const cancelPickerBtn = document.getElementById('cancel-picker-button');
+const palette = document.getElementById('palette');
+let hexElements = null;
 
-const ctx =  canvas.getContext('2d');
+const ctx = canvas.getContext('2d');
 const img = new Image();
 const colorThief = new ColorThief();
+
+//if a color in the palette is currently selected, the element will be saved in this variable.
+let currentlySelectedColor = null;
+//the element displaying the hex code of the currently selected color element.
+let currentlySelectedHexCode = null;
+
+//the object used to display the color picker box on the screen.
 const colorPicker = new iro.ColorPicker("#picker", {
     width: 250,
     color: "rgb(255, 0, 0)",
-    borderWidth: 1,
-    borderColor: "#fff",
+    border: "none",
     layout: [
         {
             component: iro.ui.Box,
@@ -30,20 +41,50 @@ const colorPicker = new iro.ColorPicker("#picker", {
     ]
 });
 
+let hexValueCopy = null;
+
+palette.addEventListener('mouseover', (e) => {
+    if (e.target.classList.contains('hex-value')) {
+        hexValueCopy = e.target.textContent;
+        e.target.textContent = "Copy";
+    }
+});
+
+palette.addEventListener('mouseout', (e) => {
+    if (e.target.classList.contains('hex-value')) {
+        e.target.textContent = hexValueCopy;
+    }
+});
+
 
 generatePaletteBtn.addEventListener('click', e => {
-    
-    const palette = document.getElementById('palette');
+
     //remove previous palette.
     palette.innerHTML = '';
-    
+
     console.log(img.width);
-    if(img.complete) {
-       const paletteColors = colorThief.getPalette(img, getNumberOfColors());
-       for(let paletteColor of paletteColors) {
-         palette.appendChild(createPaletteColor(paletteColor));
-       }
+    if (img.complete) {
+        const paletteColors = colorThief.getPalette(img, getNumberOfColors());
+        for (let paletteColor of paletteColors) {
+            palette.appendChild(createPaletteColor(paletteColor));
+        }
     }
+
+    hexElements = document.querySelectorAll('.hex-value');
+    alert(`number of hex elements: ${hexElements.length}`)
+})
+
+//changes the selected color (and its adjacent hex code) to match the color that is selected
+//in the color picker.
+applyPickerBtn.addEventListener('click', e => {
+    currentlySelectedColor.style.backgroundColor = `${colorPicker.color.hexString}`;
+    currentlySelectedHexCode.innerHTML = `${colorPicker.color.hexString}`;
+    colorPickerContainer.style.display = 'none';
+})
+
+//closes the color picker without changing the selected color.
+cancelPickerBtn.addEventListener('click', e => {
+    colorPickerContainer.style.display = 'none';
 })
 
 function createPaletteColor(color) {
@@ -59,24 +100,38 @@ function createPaletteColor(color) {
     paletteColor.appendChild(displayColor);
     paletteColor.appendChild(hexValue);
 
-    //Add click event to the newly generated color display
+    //Adds click event to the newly generated color display
     displayColor.addEventListener('click', () => {
-
-        alert(`You clicked on color: ${colorHexValue}`);
-        console.log(`RGB: ${color[0]}, ${color[1]}, ${color[2]}`);
+        initialiseColorPicker(colorHexValue);
+        currentlySelectedColor = displayColor;
+        currentlySelectedHexCode = hexValue;
     });
-
     return paletteColor;
 }
 
-//gets the currently input number of colors and sets a default value when the input was not valid.
+/**
+ * Displays the color picker in the middle of the screen on top of the other elements
+ * and sets the initial color of the color picker to the passed colorHexValue.
+ * @param colorHexValue the color value (as a hex value) to display on the color picker.
+ */
+
+function initialiseColorPicker(colorHexValue) {
+    colorPicker.color.hexString = colorHexValue;
+    colorPickerContainer.style.display = 'flex';
+}
+
+
+
+/**
+ * gets the currently input number of colors and sets a default value when the input was not valid.
+ if the input was not valid a default palette of 5 colors will be generated.
+ */
 function getNumberOfColors() {
     const numberOfColorsInput = document.getElementById('number-of-colors');
-    const numberOfColors =  parseInt(numberOfColorsInput.value, 10);
-    if(validNumberInput(numberOfColors)) {
+    const numberOfColors = parseInt(numberOfColorsInput.value, 10);
+    if (validNumberInput(numberOfColors)) {
         return numberOfColors;
-    }
-    else return 5;
+    } else return 5;
 }
 
 //checks for valid number input in the number-of-colors input field.
@@ -126,7 +181,8 @@ takePhotoBtn.addEventListener('click', () => {
 //draws image uploaded via button onto canvas.
 inputFile.addEventListener('change', uploadImage);
 
-generatePaletteBtn.addEventListener('click', () => {})
+generatePaletteBtn.addEventListener('click', () => {
+})
 
 function uploadImage() {
     canvas.style.display = 'block';
@@ -134,7 +190,7 @@ function uploadImage() {
     if (file) {
         img.src = URL.createObjectURL(file);
 
-        img.onload = function() {
+        img.onload = function () {
 
             canvas.width = img.width;
             canvas.height = img.height;
