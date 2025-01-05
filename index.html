@@ -33,23 +33,29 @@
             <span class="material-symbols-outlined">
                  photo_camera
             </span>
-                Capture Photo
+                Use camera
         </label>
         <label id="take-photo-btn" class="image-upload-button">
-                Take Photo
+                Capture Photo
         </label>
         <h2>Generate Palette</h2>
         <span class="generate-palette-text">Enter how many different colors you want in your palette</span>
         <label for="number-of-colors">
         </label><input type="number" placeholder = "Enter number between 1 and 15" id="number-of-colors" min="1" max="15">
         <button id="generate-palette-btn">Generate </button>
+        <div id="palette-container">
+            <h2 class="h2-on-white">Palette</h2>
+            <div id="palette" class="palette"></div>
+        </div>
+
+        <div id="picker" class="color-picker"></div>
     </div>
         <video id="camera" autoplay></video>
         <canvas id="image-canvas"></canvas>
     </div>
-
 </main>
-<script type="module" src="src/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5.5.2/dist/iro.min.js"></script>
+<script type="module" src="src/main.js"></script>
 </body>
 </html>
