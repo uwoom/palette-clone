@@ -24,7 +24,6 @@ body {
     justify-content: center;
     align-items: center;
     width: 70%;
-
 }
 
 h2 {
@@ -153,10 +152,6 @@ header {
     transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 
-input::placeholder{
-    color: #dcd3e3;
-}
-
 .generate-palette-text {
     width: 90%;
     margin: 10px;
@@ -218,6 +213,7 @@ input::placeholder{
     transition: transform 0.3s ease;
 }
 
+
 .color-display:hover {
     transform: scale(1.05);
     cursor: pointer;
@@ -226,16 +222,26 @@ input::placeholder{
 .hex-value {
     font-size: 1rem;
     padding: 3px;
-    color: #24232b;
+    color: #48454e;
 }
 
 .hex-value:hover {
     cursor: pointer;
 }
 
+.extend-colors-container {
+    width: 100%;
+}
+
+.p-on-white {
+    color: #48454e;
+}
+
 .h2-on-white {
     color: black;
 }
+
+
 
 .color-picker {
    display: flex;
@@ -317,6 +323,7 @@ input::placeholder{
 #navbar {
     display:none;
 }
+
 
 /*
 Animations for snackbar taken from https://www.w3schools.com/howto/howto_js_snackbar.asp

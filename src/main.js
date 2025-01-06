@@ -15,6 +15,20 @@ let hexElements = null;
 
 const ctx = canvas.getContext('2d');
 const img = new Image();
+
+//displays the default image onto the canvas when website is loaded. Also displays the color palette of that image.
+img.src = "public/logo_png.png";
+img.onload = () => {
+        imageLoad();
+}
+
+//generates the default palette to be displayed in the color palette container.
+palette.appendChild(createPaletteColor("#bc5dc7"));
+palette.appendChild(createPaletteColor("#a7cc87"));
+palette.appendChild(createPaletteColor("#61a6c4"));
+palette.appendChild(createPaletteColor("#d8a464"));
+palette.appendChild(createPaletteColor("#e45cae"));
+
 const colorThief = new ColorThief();
 
 //if a color in the palette is currently selected, the element will be saved in this variable.
@@ -75,18 +89,26 @@ function showSnackbar() {
 }
 
 
-generatePaletteBtn.addEventListener('click', () => {//remove previous palette.
+generatePaletteBtn.addEventListener('click', () => {
+  generatePalette();
+})
+
+function generatePalette()   {
+
+    //remove previous palette.
     palette.innerHTML = '';
 
-    console.log(img.width);
     if (img.complete) {
         const paletteColors = colorThief.getPalette(img, getNumberOfColors());
         for (let paletteColor of paletteColors) {
-            palette.appendChild(createPaletteColor(paletteColor));
+            const hexPaletteColor  = rgbToHex(paletteColor);
+            palette.appendChild(createPaletteColor(hexPaletteColor));
         }
     }
+
+    //select all currently displayed hexElements to make the event listener for the copy function possible
     hexElements = document.querySelectorAll('.hex-value');
-})
+}
 
 
 //changes the selected color (and its adjacent hex code) to match the color that is selected
@@ -107,9 +129,8 @@ function createPaletteColor(color) {
     let displayColor = document.createElement('div');
     let hexValue = document.createElement('div');
     hexValue.classList.add('hex-value');
-    const colorHexValue = rgbToHex(color);
-    hexValue.innerHTML = `${colorHexValue}`;
-    displayColor.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+    hexValue.innerHTML = `${color}`;
+    displayColor.style.backgroundColor = `${color}`;
     displayColor.classList.add('color-display');
     paletteColor.classList.add('palette-color');
     paletteColor.appendChild(displayColor);
@@ -117,7 +138,7 @@ function createPaletteColor(color) {
 
     //Adds click event to the newly generated color display
     displayColor.addEventListener('click', () => {
-        initialiseColorPicker(colorHexValue);
+        initialiseColorPicker(displayColor.style.backgroundColor);
         currentlySelectedColor = displayColor;
         currentlySelectedHexCode = hexValue;
     });
@@ -126,12 +147,12 @@ function createPaletteColor(color) {
 
 /**
  * Displays the color picker in the middle of the screen on top of the other elements
- * and sets the initial color of the color picker to the passed colorHexValue.
- * @param colorHexValue the color value (as a hex value) to display on the color picker.
+ * and sets the initial color of the color picker to the passed colorRGB.
+ * @param colorRGB the color value (as a rgb String) to display on the color picker.
  */
 
-function initialiseColorPicker(colorHexValue) {
-    colorPicker.color.hexString = colorHexValue;
+function initialiseColorPicker(colorRGB) {
+    colorPicker.color.rgbString = colorRGB;
     colorPickerContainer.style.visibility = 'visible';
 }
 
@@ -206,15 +227,20 @@ function uploadImage() {
     const file = inputFile.files[0];
     if (file && validImageInput(file)) {
         img.src = URL.createObjectURL(file);
-
-        img.onload = function () {
-
-            canvas.width = img.width;
-            canvas.height = img.height;
-
-            ctx.drawImage(img, 0, 0);
-        };
+        img.onload = () => {
+            imageLoad()
+        }
     }
+}
+
+/**
+ * Draws img onto canvas.
+ */
+function imageLoad() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        ctx.drawImage(img, 0, 0);
 }
 
 /**
