@@ -1,7 +1,7 @@
 :root {
     font-family:Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     font-weight: 400;
-    font-size: 1.1rem;
+    font-size: clamp(14px, 1.1vw, 22px);
     font-stretch: semi-expanded;
     color: #ffffff;
     background: rgb(88,75,156);
@@ -69,6 +69,11 @@ header {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+#canvas-container {
+    position: relative;
+    width: 100%;
 }
 
 #image-canvas, #palette-container, #camera {
@@ -214,7 +219,8 @@ header {
 }
 
 
-.color-display:hover {
+.color-display:hover,
+#add-symbol:hover{
     transform: scale(1.05);
     cursor: pointer;
 }
@@ -235,13 +241,75 @@ header {
 
 .p-on-white {
     color: #48454e;
+    text-align: justify;
+    width: 60%;
+}
+
+.add-color {
+    display: inline-flex;
+    align-items: center;
+}
+
+#add-symbol {
+    color: #48454e;
+    background: #f7f2fa;
+    padding: 10px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.add-color-text {
+    color:black;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 30px;
 }
 
 .h2-on-white {
     color: black;
 }
 
+.extend-colors-body {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+}
 
+.color-circle-container {
+    visibility: hidden;
+    position: absolute;
+    cursor: grab;
+    z-index: 10;
+}
+
+.color-circle {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: 2px solid whitesmoke;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: whitesmoke;
+    color: #61d0b6;
+    border: 2px solid #61d0b6;
+    border-radius: 50%;
+    height: 30%;
+    width: 30%;
+    padding: 3px;
+}
+
+.checkmark:hover {
+    cursor: pointer;
+    background: #61d0b6;;
+    border: none;
+    color: whitesmoke;
+}
 
 .color-picker {
    display: flex;
@@ -325,6 +393,7 @@ header {
 }
 
 
+
 /*
 Animations for snackbar taken from https://www.w3schools.com/howto/howto_js_snackbar.asp
  */
@@ -354,6 +423,17 @@ Animations for snackbar taken from https://www.w3schools.com/howto/howto_js_snac
     }
 }
 
+@media (max-width: 900px) {
+
+    .extend-colors-body {
+        flex-direction: column;
+    }
+
+    .p-on-white {
+        width: 100%;
+    }
+}
+
 @media (max-height: 1000px) {
     .color-display {
         width: 80px;
@@ -364,7 +444,7 @@ Animations for snackbar taken from https://www.w3schools.com/howto/howto_js_snac
     }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 700px) {
 
     #navbar {
         display: flex;
@@ -415,6 +495,15 @@ Animations for snackbar taken from https://www.w3schools.com/howto/howto_js_snac
 
     #logo span {
         font-size: 30px;
+    }
+
+    .color-display {
+        width: 50px;
+        height: 25px;
+    }
+
+    .palette {
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
     }
 }
 

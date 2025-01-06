@@ -16,7 +16,7 @@
         <span>Palette Clone</span>
     </div>
     <div id="navbar">
-        <button id="generate-btn" class="navbar-btn" onclick="showSection('generate-container')">Generate</button>
+        <button id="generate-btn" class="navbar-btn selected" onclick="showSection('generate-container')">Generate</button>
         <button id="palette-btn" class="navbar-btn" onclick="showSection('image-area-container')">Palette</button>
     </div>
 </header>
@@ -51,7 +51,9 @@
         </div>
         <div id="image-area-container" class="section">
             <video id="camera" autoplay></video>
-            <canvas id="image-canvas"></canvas>
+            <div id="canvas-container">
+                <canvas id="image-canvas"></canvas>
+            </div>
             <label id="take-photo-btn" class="image-upload-button">
             <span class="material-symbols-outlined">
                 add_a_photo
@@ -64,8 +66,16 @@
                 </div>
                 <div id="extend-colors-container" class="extend-colors-container">
                     <h2 class="h2-on-white">Extend Colors</h2>
-                    <p class="p-on-white">Select custom colors from the uploaded image.</p>
-                    <div id="add-color-btn" class="add-color-btn">
+                    <div class="extend-colors-body">
+                        <p class="p-on-white" >Select custom colors from the uploaded image.</p>
+                        <div class="add-color">
+                            <div id="add-color-btn">
+                            <span id="add-symbol" class="material-symbols-outlined">
+                                add
+                            </span>
+                            </div>
+                            <span class="add-color-text">Add Color</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,6 +94,14 @@
         </div>
     </div>
     <div id="snackbar">Copied to clipboard</div>
+    <div id="color-circle-container" class="color-circle-container">
+        <div id="checkmark" class="checkmark">
+            <span class="material-symbols-outlined">
+                check
+            </span>
+        </div>
+        <div id="color-circle" class="color-circle"></div>
+    </div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5.5.2/dist/iro.min.js"></script>

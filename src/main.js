@@ -11,15 +11,16 @@ const colorPickerContainer = document.getElementById('color-picker-container');
 const applyPickerBtn = document.getElementById('apply-picker-button');
 const cancelPickerBtn = document.getElementById('cancel-picker-button');
 const palette = document.getElementById('palette');
+const addColorBtn = document.getElementById('add-color-btn');
 let hexElements = null;
 
-const ctx = canvas.getContext('2d');
+const ctx = canvas.getContext('2d', {willReadFrequently: true});
 const img = new Image();
 
 //displays the default image onto the canvas when website is loaded. Also displays the color palette of that image.
 img.src = "public/logo_png.png";
 img.onload = () => {
-        imageLoad();
+    imageLoad();
 }
 
 //generates the default palette to be displayed in the color palette container.
@@ -90,10 +91,10 @@ function showSnackbar() {
 
 
 generatePaletteBtn.addEventListener('click', () => {
-  generatePalette();
+    generatePalette();
 })
 
-function generatePalette()   {
+function generatePalette() {
 
     //remove previous palette.
     palette.innerHTML = '';
@@ -101,7 +102,7 @@ function generatePalette()   {
     if (img.complete) {
         const paletteColors = colorThief.getPalette(img, getNumberOfColors());
         for (let paletteColor of paletteColors) {
-            const hexPaletteColor  = rgbToHex(paletteColor);
+            const hexPaletteColor = rgbToHex(paletteColor);
             palette.appendChild(createPaletteColor(hexPaletteColor));
         }
     }
@@ -144,6 +145,113 @@ function createPaletteColor(color) {
     });
     return paletteColor;
 }
+
+const canvasContainer = document.getElementById('canvas-container');
+const colorCircleContainer = document.getElementById('color-circle-container');
+
+
+addColorBtn.addEventListener('click', e => {
+
+    canvasContainer.appendChild(colorCircleContainer);
+
+    //positions the color circle for picking a color in the center of the canvas and makes it visible.
+    const canvasRect = canvas.getBoundingClientRect();
+    const colorCircleHeight = colorCircleContainer.offsetHeight;
+    const colorCircleWidth = colorCircleContainer.offsetWidth;
+    colorCircleContainer.style.top = `${canvasRect.height / 2 - colorCircleHeight / 2}px`;
+    colorCircleContainer.style.left = `${canvasRect.width / 2 - colorCircleWidth / 2}px`;
+    colorCircleContainer.style.visibility = 'visible';
+
+    let isDragging = false;
+
+    // Start dragging with mouse
+    const onMouseDown = (e) => {
+        isDragging = true;
+        moveColorCircle(e.clientX, e.clientY);
+        e.preventDefault();
+    }
+
+    // Start dragging with touch
+    const onTouchstart = (e) => {
+        isDragging = true;
+        const touch = e.touches[0];
+        moveColorCircle(touch.clientX, touch.clientY);
+    }
+
+// Move the circle with mouse
+    const onMouseMove = (e) => {
+        if (!isDragging) return;
+
+        let clientX, clientY;
+        clientX = e.clientX;
+        clientY = e.clientY;
+        moveColorCircle(clientX, clientY);
+        // Update circle background with the color
+        const pixel = ctx.getImageData(clientX, clientY, 1, 1).data;
+        colorCircleContainer.style.background = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+        e.preventDefault();
+    };
+
+// Move circle with touch input
+    const onTouchMove = (e) => {
+        if (!isDragging) return;
+
+        let clientX, clientY;
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+        moveColorCircle(clientX, clientY);
+    }
+
+    //stop movement
+    const onStop = () => {
+        isDragging = false;
+    };
+
+// Attach move and stop listeners to the document
+    colorCircleContainer.addEventListener("mousedown", onMouseDown)
+    colorCircleContainer.addEventListener("touchstart", onTouchstart);
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("touchmove", onTouchMove);
+    document.addEventListener("mouseup", onStop);
+    document.addEventListener("touchend", onStop);
+})
+
+/**
+ * Moves color circle to specified x and y coordinates.
+ * @param clientX the x coordinate to move to.
+ * @param clientY the y coordinate to move to.
+ */
+function moveColorCircle(clientX, clientY) {
+    const canvasRect = canvasContainer.getBoundingClientRect();
+    let newXPosition = clientX - canvasRect.left - colorCircleContainer.offsetWidth / 2;
+    let newYPosition = clientY - canvasRect.top - colorCircleContainer.offsetHeight / 2;
+
+    // Map clientX and clientY to canvas coordinates
+    const scaleX = canvas.width / canvasRect.width; // Account for canvas CSS scaling
+    const scaleY = canvas.height / canvasRect.height;
+
+    //clamp the circle to the bounds of the canvas
+    newXPosition = Math.max(0, Math.min(newXPosition, canvasRect.width - colorCircleContainer.offsetWidth));
+    newYPosition = Math.max(0, Math.min(newYPosition, canvasRect.height - colorCircleContainer.offsetHeight));
+
+    //Get the canvas pixel color at the center of the circle
+    const canvasX = (newXPosition + colorCircleContainer.offsetWidth / 2) * scaleX;
+    const canvasY = (newYPosition + colorCircleContainer.offsetHeight / 2) * scaleY;
+
+    if (canvasX >= 0 && canvasX < canvas.width && canvasY >= 0 && canvasY < canvas.height) {
+        const pixel = ctx.getImageData(canvasX, canvasY, 1, 1).data;
+
+        // Update the circle's background color
+        colorCircleContainer.style.background = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+    }
+
+
+    colorCircleContainer.style.top = `${newYPosition}px`;
+    colorCircleContainer.style.left = `${newXPosition}px`;
+}
+
+
+
 
 /**
  * Displays the color picker in the middle of the screen on top of the other elements
@@ -193,6 +301,9 @@ captureBtn.addEventListener('click', () => {
     //to prevent that image can be uploaded while camera is active.
     imageDropZone.style.display = 'none';
     choosePhotoBtn.style.display = 'none';
+
+    //switch to palette section if screen is small and website is divided into two sections.
+    showSection('image-area-container');
 });
 
 //takes photo of video and renders it on canvas
@@ -237,10 +348,10 @@ function uploadImage() {
  * Draws img onto canvas.
  */
 function imageLoad() {
-        canvas.width = img.width;
-        canvas.height = img.height;
+    canvas.width = img.width;
+    canvas.height = img.height;
 
-        ctx.drawImage(img, 0, 0);
+    ctx.drawImage(img, 0, 0);
 }
 
 /**
