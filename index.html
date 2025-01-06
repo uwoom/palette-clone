@@ -21,7 +21,6 @@
     </div>
 </header>
 <main id="app">
-    <div id="content">
         <div id="generate-container" class="section active">
             <p id="explanatory-text">Upload an image and generate a color palette from it. Perfect if you want to
                 copy the style of a picture or drawing or make a custom image look like your favorite movie.</p>
@@ -67,7 +66,7 @@
                 <div id="extend-colors-container" class="extend-colors-container">
                     <h2 class="h2-on-white">Extend Colors</h2>
                     <div class="extend-colors-body">
-                        <p class="p-on-white" >Select custom colors from the uploaded image.</p>
+                        <p class="p-on-white" >Select custom colors from the color picker.</p>
                         <div class="add-color">
                             <div id="add-color-btn">
                             <span id="add-symbol" class="material-symbols-outlined">
@@ -80,7 +79,6 @@
                 </div>
             </div>
         </div>
-    </div>
     <div class="color-picker-container" id="color-picker-container">
         <h2 class="h2-on-white">Color Picker</h2>
         <div id="picker" class="color-picker"></div>
@@ -94,14 +92,6 @@
         </div>
     </div>
     <div id="snackbar">Copied to clipboard</div>
-    <div id="color-circle-container" class="color-circle-container">
-        <div id="checkmark" class="checkmark">
-            <span class="material-symbols-outlined">
-                check
-            </span>
-        </div>
-        <div id="color-circle" class="color-circle"></div>
-    </div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5.5.2/dist/iro.min.js"></script>

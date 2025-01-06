@@ -20,10 +20,10 @@ body {
 
 #app {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     width: 70%;
+    margin: 30px;
 }
 
 h2 {
@@ -52,14 +52,6 @@ header {
     font-size: 40px;
     font-weight: 400;
     color: white;
-}
-
-#content {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    justify-content: center;
-    margin: 10px;
 }
 
 #image-canvas{
@@ -277,40 +269,6 @@ header {
     align-items: center;
 }
 
-.color-circle-container {
-    visibility: hidden;
-    position: absolute;
-    cursor: grab;
-    z-index: 10;
-}
-
-.color-circle {
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    border: 2px solid whitesmoke;
-}
-
-.checkmark {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: whitesmoke;
-    color: #61d0b6;
-    border: 2px solid #61d0b6;
-    border-radius: 50%;
-    height: 30%;
-    width: 30%;
-    padding: 3px;
-}
-
-.checkmark:hover {
-    cursor: pointer;
-    background: #61d0b6;;
-    border: none;
-    color: whitesmoke;
-}
-
 .color-picker {
    display: flex;
     flex-direction: column;
@@ -320,6 +278,7 @@ header {
 
 .color-picker-container {
     position: absolute;
+    top: 30%;
     display: flex;
     visibility: hidden;
     padding: 24px;

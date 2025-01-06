@@ -50,6 +50,16 @@ const colorPicker = new iro.ColorPicker("#picker", {
 
 let hexValueCopy = null;
 
+//opens color picker and generates a new color to be appended to the list of colors in the palette.
+addColorBtn.addEventListener('click', () => {
+    let newPaletteColor = createPaletteColor("#ebe6ee");
+    currentlySelectedColor = newPaletteColor.children[0];
+    currentlySelectedHexCode = newPaletteColor.children[1];
+    palette.appendChild(newPaletteColor);
+    colorPickerContainer.style.visibility = 'visible';
+    colorPicker.color.hexString = "#ebe6ee";
+})
+
 /*
 when hovering above a displayed hex-value, the text 'Copy' will be displayed to indicate to the user,
 that he can copy the hex-code by clicking on it.
@@ -145,111 +155,6 @@ function createPaletteColor(color) {
     });
     return paletteColor;
 }
-
-const canvasContainer = document.getElementById('canvas-container');
-const colorCircleContainer = document.getElementById('color-circle-container');
-
-
-addColorBtn.addEventListener('click', e => {
-
-    canvasContainer.appendChild(colorCircleContainer);
-
-    //positions the color circle for picking a color in the center of the canvas and makes it visible.
-    const canvasRect = canvas.getBoundingClientRect();
-    const colorCircleHeight = colorCircleContainer.offsetHeight;
-    const colorCircleWidth = colorCircleContainer.offsetWidth;
-    colorCircleContainer.style.top = `${canvasRect.height / 2 - colorCircleHeight / 2}px`;
-    colorCircleContainer.style.left = `${canvasRect.width / 2 - colorCircleWidth / 2}px`;
-    colorCircleContainer.style.visibility = 'visible';
-
-    let isDragging = false;
-
-    // Start dragging with mouse
-    const onMouseDown = (e) => {
-        isDragging = true;
-        moveColorCircle(e.clientX, e.clientY);
-        e.preventDefault();
-    }
-
-    // Start dragging with touch
-    const onTouchstart = (e) => {
-        isDragging = true;
-        const touch = e.touches[0];
-        moveColorCircle(touch.clientX, touch.clientY);
-    }
-
-// Move the circle with mouse
-    const onMouseMove = (e) => {
-        if (!isDragging) return;
-
-        let clientX, clientY;
-        clientX = e.clientX;
-        clientY = e.clientY;
-        moveColorCircle(clientX, clientY);
-        // Update circle background with the color
-        const pixel = ctx.getImageData(clientX, clientY, 1, 1).data;
-        colorCircleContainer.style.background = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
-        e.preventDefault();
-    };
-
-// Move circle with touch input
-    const onTouchMove = (e) => {
-        if (!isDragging) return;
-
-        let clientX, clientY;
-        clientX = e.touches[0].clientX;
-        clientY = e.touches[0].clientY;
-        moveColorCircle(clientX, clientY);
-    }
-
-    //stop movement
-    const onStop = () => {
-        isDragging = false;
-    };
-
-// Attach move and stop listeners to the document
-    colorCircleContainer.addEventListener("mousedown", onMouseDown)
-    colorCircleContainer.addEventListener("touchstart", onTouchstart);
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("touchmove", onTouchMove);
-    document.addEventListener("mouseup", onStop);
-    document.addEventListener("touchend", onStop);
-})
-
-/**
- * Moves color circle to specified x and y coordinates.
- * @param clientX the x coordinate to move to.
- * @param clientY the y coordinate to move to.
- */
-function moveColorCircle(clientX, clientY) {
-    const canvasRect = canvasContainer.getBoundingClientRect();
-    let newXPosition = clientX - canvasRect.left - colorCircleContainer.offsetWidth / 2;
-    let newYPosition = clientY - canvasRect.top - colorCircleContainer.offsetHeight / 2;
-
-    // Map clientX and clientY to canvas coordinates
-    const scaleX = canvas.width / canvasRect.width; // Account for canvas CSS scaling
-    const scaleY = canvas.height / canvasRect.height;
-
-    //clamp the circle to the bounds of the canvas
-    newXPosition = Math.max(0, Math.min(newXPosition, canvasRect.width - colorCircleContainer.offsetWidth));
-    newYPosition = Math.max(0, Math.min(newYPosition, canvasRect.height - colorCircleContainer.offsetHeight));
-
-    //Get the canvas pixel color at the center of the circle
-    const canvasX = (newXPosition + colorCircleContainer.offsetWidth / 2) * scaleX;
-    const canvasY = (newYPosition + colorCircleContainer.offsetHeight / 2) * scaleY;
-
-    if (canvasX >= 0 && canvasX < canvas.width && canvasY >= 0 && canvasY < canvas.height) {
-        const pixel = ctx.getImageData(canvasX, canvasY, 1, 1).data;
-
-        // Update the circle's background color
-        colorCircleContainer.style.background = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
-    }
-
-
-    colorCircleContainer.style.top = `${newYPosition}px`;
-    colorCircleContainer.style.left = `${newXPosition}px`;
-}
-
 
 
 
