@@ -231,7 +231,7 @@ header {
     width: 100%;
 }
 
-.p-on-white {
+.extend-colors-paragraph {
     color: #48454e;
     text-align: justify;
     width: 60%;
@@ -284,7 +284,7 @@ header {
     padding: 24px;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 15px;
     flex-direction: column;
     background: #f1ecf4;
     border-radius: 10px;
@@ -299,6 +299,44 @@ header {
     gap: 8px;
 }
 
+.color-picker-text {
+    text-align: right;
+    color: #5d3748;
+}
+
+.color-picker-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 5px;
+}
+
+.hex-color-container {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 5px;
+    max-width: 250px;
+    width: 100%;
+}
+
+#hex-color {
+    width: 50%;
+    box-sizing: border-box;
+    padding: 4px;
+    font-size: 15px;
+    text-align: center;
+    border-radius: 8px;
+    border: 2px solid #5d3748;
+    color: #5d3748;
+}
+
+#hex-color:focus{
+    border-color: #8e546e;
+    outline: none;
+}
+
 .color-picker-button {
     background: transparent;
     border: none;
@@ -306,6 +344,27 @@ header {
     font-size: 0.85rem;
     font-weight: 400;
     color: #5d3748;
+}
+
+.color-picker-menu-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    max-width: 250px;
+    padding: 8px;
+    background: transparent;
+    border: 2px solid #5d3748;
+    color: #5d3748;
+    border-radius: 8px;
+}
+
+.color-picker-menu-button:hover {
+    cursor: pointer;
+    color: white;
+    background: #5d3748;
+    border-color: white;
 }
 
 .color-picker-button:hover {
@@ -388,8 +447,10 @@ Animations for snackbar taken from https://www.w3schools.com/howto/howto_js_snac
         flex-direction: column;
     }
 
-    .p-on-white {
+
+    .extend-colors-paragraph {
         width: 100%;
+        text-align: center;
     }
 }
 

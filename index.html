@@ -66,7 +66,7 @@
                 <div id="extend-colors-container" class="extend-colors-container">
                     <h2 class="h2-on-white">Extend Colors</h2>
                     <div class="extend-colors-body">
-                        <p class="p-on-white" >Select custom colors from the color picker.</p>
+                        <p class="extend-colors-paragraph" >Select custom colors from the color picker.</p>
                         <div class="add-color">
                             <div id="add-color-btn">
                             <span id="add-symbol" class="material-symbols-outlined">
@@ -81,6 +81,19 @@
         </div>
     <div class="color-picker-container" id="color-picker-container">
         <h2 class="h2-on-white">Color Picker</h2>
+        <div id="color-picker-menu" class="color-picker-menu">
+            <div class="hex-color-container">
+                <span class="color-picker-text">Hex Color</span>
+                <label for="hex-color"></label>
+                <input type="text" id="hex-color" value="#000000">
+            </div>
+            <div class="color-picker-menu-button" id="complementary-color">
+                Complementary Color
+            </div>
+            <div class="color-picker-menu-button" id="generate-tint">
+                Generate Tint
+            </div>
+        </div>
         <div id="picker" class="color-picker"></div>
         <div class="buttons-container">
             <button id="apply-picker-button" class="color-picker-button">

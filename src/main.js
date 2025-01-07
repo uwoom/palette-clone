@@ -12,6 +12,8 @@ const applyPickerBtn = document.getElementById('apply-picker-button');
 const cancelPickerBtn = document.getElementById('cancel-picker-button');
 const palette = document.getElementById('palette');
 const addColorBtn = document.getElementById('add-color-btn');
+const hexColor = document.getElementById('hex-color');
+const complementaryColorBtn = document.getElementById('complementary-color');
 let hexElements = null;
 
 const ctx = canvas.getContext('2d', {willReadFrequently: true});
@@ -58,7 +60,35 @@ addColorBtn.addEventListener('click', () => {
     palette.appendChild(newPaletteColor);
     colorPickerContainer.style.visibility = 'visible';
     colorPicker.color.hexString = "#ebe6ee";
+    hexColor.value = "#ebe6ee";
 })
+
+complementaryColorBtn.addEventListener('click', () => {
+    calculateComplementaryColor(colorPicker.color.hsl);
+})
+
+function calculateComplementaryColor(hslColor) {
+    hslColor.h = (hslColor.h + 180) % 360;
+    colorPicker.color.hsl = hslColor;
+}
+
+//updates color picker if new valid hex-code was entered.
+hexColor.addEventListener('change', () => {
+    const currentColor = hexColor.value;
+    if(validHexCode(currentColor)) {
+        colorPicker.color.hexString = currentColor;
+    }
+})
+
+/**
+ * Checks whether input hexCode is actually a valid hex code.
+ * @param hexCode the string to check.
+ * @returns {boolean} returns true if valid hexCode, false otherwise.
+ */
+function validHexCode(hexCode) {
+   return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexCode || '');
+}
+hexColor.addEventListener('change', () => {})
 
 /*
 when hovering above a displayed hex-value, the text 'Copy' will be displayed to indicate to the user,
@@ -104,6 +134,10 @@ generatePaletteBtn.addEventListener('click', () => {
     generatePalette();
 })
 
+/**
+ * Removes the previously displayed palette and generates the new input palette based on the img.
+ * The number of colors generated is determined by the value in the 'number-of-colors' input.
+ */
 function generatePalette() {
 
     //remove previous palette.
@@ -135,6 +169,16 @@ cancelPickerBtn.addEventListener('click', e => {
     colorPickerContainer.style.visibility = 'hidden';
 })
 
+// Update the displayed hex color when picked color in color picker is modified
+colorPicker.on('color:change', (color) => {
+    hexColor.value = color.hexString;
+});
+
+/**
+ * Generates a palette color displaying the color in a box with the hex-code value below.
+ * @param color the color (as a hex code) to display.
+ * @returns {HTMLDivElement} the divElement that displays the input color.
+ */
 function createPaletteColor(color) {
     let paletteColor = document.createElement('div');
     let displayColor = document.createElement('div');
@@ -152,11 +196,10 @@ function createPaletteColor(color) {
         initialiseColorPicker(displayColor.style.backgroundColor);
         currentlySelectedColor = displayColor;
         currentlySelectedHexCode = hexValue;
+        hexColor.value = color;
     });
     return paletteColor;
 }
-
-
 
 /**
  * Displays the color picker in the middle of the screen on top of the other elements
@@ -232,8 +275,6 @@ takePhotoBtn.addEventListener('click', () => {
 //draws image uploaded via button onto canvas.
 inputFile.addEventListener('change', uploadImage);
 
-generatePaletteBtn.addEventListener('click', () => {
-})
 
 /**
  * Renders the image currently in inputFile.files onto canvas.
