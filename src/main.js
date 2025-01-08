@@ -260,7 +260,7 @@ captureBtn.addEventListener('click', () => {
             window.showSection('image-area-container');
         })
         .catch(error => {
-            alert(`Error accessing camera: ${error}` );
+            alert(`Error accessing camera: ${error.message}` );
         });
 });
 
