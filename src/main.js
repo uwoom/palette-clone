@@ -67,6 +67,10 @@ complementaryColorBtn.addEventListener('click', () => {
     calculateComplementaryColor(colorPicker.color.hsl);
 })
 
+/**
+ * calculates the complementary color of the given hslColor input and sets the color picker to it.
+ * @param hslColor color in the format {h: , s: ; l: }
+ */
 function calculateComplementaryColor(hslColor) {
     hslColor.h = (hslColor.h + 180) % 360;
     colorPicker.color.hsl = hslColor;
@@ -132,6 +136,9 @@ function showSnackbar() {
 
 generatePaletteBtn.addEventListener('click', () => {
     generatePalette();
+
+    //switch to palette section if screen is small and website is divided into two sections.
+    showSection('image-area-container');
 })
 
 /**
@@ -230,9 +237,9 @@ function validNumberInput(number) {
     return !(isNaN(number) || number < 1 || number > 15);
 }
 
-// Open Video on click
+//open video on click
 captureBtn.addEventListener('click', () => {
-    // Request access to the user's camera
+    //request access to the user's camera
     navigator.mediaDevices.getUserMedia({video: true})
         .then((stream) => {
             video.srcObject = stream;
@@ -263,6 +270,10 @@ takePhotoBtn.addEventListener('click', () => {
     img.src = canvas.toDataURL();
     video.style.display = 'none';
 
+    img.onload = (e) => {
+        generatePalette();
+    }
+
 //remove takePhotoBtn so and display capture-btn, drop-zone and choosePhotoBtn again so that only
 // one photo at a time can be taken
     takePhotoBtn.style.display = 'none';
@@ -285,9 +296,12 @@ function uploadImage() {
     if (file && validImageInput(file)) {
         img.src = URL.createObjectURL(file);
         img.onload = () => {
-            imageLoad()
+            imageLoad();
+            generatePalette();
         }
     }
+    //switch to palette section if screen is small and website is divided into two sections.
+    showSection('image-area-container');
 }
 
 /**
@@ -350,7 +364,7 @@ window.showSection = function (sectionId) {
         section.classList.remove('active');
     });
 
-    //make previously selected button the not selected button.
+    // Make previously selected button the not selected button.
     document.querySelectorAll('.navbar-btn').forEach(btn => {
         btn.classList.remove('selected');
     });
