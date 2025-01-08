@@ -246,22 +246,22 @@ captureBtn.addEventListener('click', () => {
     navigator.mediaDevices.getUserMedia({video: true})
         .then((stream) => {
             video.srcObject = stream;
+            video.style.display = 'block';
+            captureBtn.style.display = 'none';
+
+            takePhotoBtn.style.display = 'inline-flex';
+            canvas.style.display = 'none';
+
+            //to prevent that image can be uploaded while camera is active.
+            imageDropZone.style.display = 'none';
+            choosePhotoBtn.style.display = 'none';
+
+            //switch to palette section if screen is small and website is divided into two sections.
+            window.showSection('image-area-container');
         })
-        .catch(() => {
-            alert("Error accessing the camera");
+        .catch(error => {
+            alert(`Error accessing camera: ${error}` );
         });
-    video.style.display = 'block';
-    captureBtn.style.display = 'none';
-
-    takePhotoBtn.style.display = 'inline-flex';
-    canvas.style.display = 'none';
-
-    //to prevent that image can be uploaded while camera is active.
-    imageDropZone.style.display = 'none';
-    choosePhotoBtn.style.display = 'none';
-
-    //switch to palette section if screen is small and website is divided into two sections.
-    showSection('image-area-container');
 });
 
 //takes photo of video and renders it on canvas
