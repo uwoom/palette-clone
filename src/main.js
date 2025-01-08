@@ -239,6 +239,9 @@ function validNumberInput(number) {
 
 //open video on click
 captureBtn.addEventListener('click', () => {
+    video.setAttribute('autoplay', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '')
     //request access to the user's camera
     navigator.mediaDevices.getUserMedia({video: true})
         .then((stream) => {
