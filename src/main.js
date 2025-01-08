@@ -63,6 +63,7 @@ addColorBtn.addEventListener('click', () => {
     hexColor.value = "#ebe6ee";
 })
 
+//calculates the complementary color of the color currently selected in the color picker.
 complementaryColorBtn.addEventListener('click', () => {
     calculateComplementaryColor(colorPicker.color.hsl);
 })
@@ -79,7 +80,7 @@ function calculateComplementaryColor(hslColor) {
 //updates color picker if new valid hex-code was entered.
 hexColor.addEventListener('change', () => {
     const currentColor = hexColor.value;
-    if(validHexCode(currentColor)) {
+    if (validHexCode(currentColor)) {
         colorPicker.color.hexString = currentColor;
     }
 })
@@ -90,9 +91,11 @@ hexColor.addEventListener('change', () => {
  * @returns {boolean} returns true if valid hexCode, false otherwise.
  */
 function validHexCode(hexCode) {
-   return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexCode || '');
+    return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexCode || '');
 }
-hexColor.addEventListener('change', () => {})
+
+hexColor.addEventListener('change', () => {
+})
 
 /*
 when hovering above a displayed hex-value, the text 'Copy' will be displayed to indicate to the user,
@@ -151,7 +154,7 @@ function generatePalette() {
     palette.innerHTML = '';
 
     if (img.complete) {
-        const paletteColors = colorThief.getPalette(img, getNumberOfColors());
+        const paletteColors = colorThief.getPalette(img, getNumberOfColors(), 1);
         for (let paletteColor of paletteColors) {
             const hexPaletteColor = rgbToHex(paletteColor);
             palette.appendChild(createPaletteColor(hexPaletteColor));
@@ -161,7 +164,6 @@ function generatePalette() {
     //select all currently displayed hexElements to make the event listener for the copy function possible
     hexElements = document.querySelectorAll('.hex-value');
 }
-
 
 //changes the selected color (and its adjacent hex code) to match the color that is selected
 //in the color picker.
@@ -239,16 +241,15 @@ function validNumberInput(number) {
 
 //open video on click
 captureBtn.addEventListener('click', () => {
-    video.setAttribute('autoplay', '');
-    video.setAttribute('muted', '');
     video.setAttribute('playsinline', '')
     //request access to the user's camera
     navigator.mediaDevices.getUserMedia({video: true})
         .then((stream) => {
             video.srcObject = stream;
+
+            //display video and the take-photo button instead of the capture-photo-btn and the canvas.
             video.style.display = 'block';
             captureBtn.style.display = 'none';
-
             takePhotoBtn.style.display = 'inline-flex';
             canvas.style.display = 'none';
 
@@ -260,7 +261,7 @@ captureBtn.addEventListener('click', () => {
             window.showSection('image-area-container');
         })
         .catch(error => {
-            alert(`Error accessing camera: ${error.message}` );
+            alert(`Error accessing camera: ${error.message}`);
         });
 });
 
@@ -271,14 +272,16 @@ takePhotoBtn.addEventListener('click', () => {
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     //generate image from canvas
     img.src = canvas.toDataURL();
+    //do not display the video view anymore
     video.style.display = 'none';
 
+    //generate palette of image, after it has loaded.
     img.onload = (e) => {
         generatePalette();
     }
 
-//remove takePhotoBtn so and display capture-btn, drop-zone and choosePhotoBtn again so that only
-// one photo at a time can be taken
+    //remove take-photo-btn and display capture-btn, drop-zone and choosePhotoBtn again so that only
+    // one photo at a time can be taken
     takePhotoBtn.style.display = 'none';
     captureBtn.style.display = 'inline-flex';
     canvas.style.display = 'block';
@@ -291,7 +294,7 @@ inputFile.addEventListener('change', uploadImage);
 
 
 /**
- * Renders the image currently in inputFile.files onto canvas.
+ * Renders the image currently in inputFile.files onto canvas and generates a palette from the image.
  */
 function uploadImage() {
     canvas.style.display = 'block';
@@ -332,7 +335,7 @@ function validImageInput(file) {
     return true;
 }
 
-//converts the color thief input to a hex value for display, taken from their website.
+//converts the color thief input to a hex value for display.
 function rgbToHex(decimals) {
     return `#${decimals.map((d) => d.toString(16).padStart(2, '0')).join('')}`;
 }
@@ -367,7 +370,7 @@ window.showSection = function (sectionId) {
         section.classList.remove('active');
     });
 
-    // Make previously selected button the not selected button.
+    //Remove highlight from previously selected button.
     document.querySelectorAll('.navbar-btn').forEach(btn => {
         btn.classList.remove('selected');
     });
@@ -378,7 +381,8 @@ window.showSection = function (sectionId) {
         activeSection.classList.add('active');
     }
 
-    const activeButton = document.querySelector(`.navbar-btn[onclick="showSection('${sectionId}')"]`);
+    const activeButton = document.querySelector(
+        `.navbar-btn[onclick="showSection('${sectionId}')"]`);
     if (activeButton) {
         activeButton.classList.add('selected');
     }
