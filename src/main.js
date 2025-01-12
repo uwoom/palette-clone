@@ -165,14 +165,14 @@ function generatePalette() {
 
 //changes the selected color (and its adjacent hex code) to match the color that is selected
 //in the color picker.
-applyPickerBtn.addEventListener('click', e => {
+applyPickerBtn.addEventListener('click', () => {
     currentlySelectedColor.style.backgroundColor = `${colorPicker.color.hexString}`;
     currentlySelectedHexCode.innerHTML = `${colorPicker.color.hexString}`;
     colorPickerContainer.style.visibility = 'hidden';
 })
 
 //closes the color picker without changing the selected color.
-cancelPickerBtn.addEventListener('click', e => {
+cancelPickerBtn.addEventListener('click', () => {
     colorPickerContainer.style.visibility = 'hidden';
 })
 
@@ -274,7 +274,7 @@ takePhotoBtn.addEventListener('click', () => {
     video.style.display = 'none';
 
     //generate palette of image, after it has loaded.
-    img.onload = (e) => {
+    img.onload = () => {
         generatePalette();
     }
 
