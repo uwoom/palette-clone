@@ -152,10 +152,15 @@ function generatePalette() {
     palette.innerHTML = '';
 
     if (img.complete) {
-        const paletteColors = colorThief.getPalette(img, getNumberOfColors(), 1);
-        for (let paletteColor of paletteColors) {
-            const hexPaletteColor = rgbToHex(paletteColor);
-            palette.appendChild(createPaletteColor(hexPaletteColor));
+        if(1 === getNumberOfColors()) {
+            palette.appendChild(createPaletteColor(rgbToHex(colorThief.getColor(img))));
+        }
+        else {
+            const paletteColors = colorThief.getPalette(img, getNumberOfColors(), 1);
+            for (let paletteColor of paletteColors) {
+                const hexPaletteColor = rgbToHex(paletteColor);
+                palette.appendChild(createPaletteColor(hexPaletteColor));
+            }
         }
     }
 
