@@ -1,3 +1,4 @@
+//access DOM elements
 const video = document.getElementById('camera');
 const canvas = document.getElementById('image-canvas');
 const captureBtn = document.getElementById('capture-btn');
@@ -14,6 +15,10 @@ const palette = document.getElementById('palette');
 const addColorBtn = document.getElementById('add-color-btn');
 const hexColor = document.getElementById('hex-color');
 const complementaryColorBtn = document.getElementById('complementary-color');
+
+/*list of all hex elements in the document currently displayed. The hex elements are the divs below the different
+color displays in the color palette.
+ */
 let hexElements = null;
 
 const ctx = canvas.getContext('2d', {willReadFrequently: true});
@@ -24,13 +29,6 @@ img.src = "public/logo_png.png";
 img.onload = () => {
     imageLoad();
 }
-
-//generates the default palette to be displayed in the color palette container.
-palette.appendChild(createPaletteColor("#bc5dc7"));
-palette.appendChild(createPaletteColor("#a7cc87"));
-palette.appendChild(createPaletteColor("#61a6c4"));
-palette.appendChild(createPaletteColor("#d8a464"));
-palette.appendChild(createPaletteColor("#e45cae"));
 
 const colorThief = new ColorThief();
 
@@ -303,7 +301,6 @@ function uploadImage() {
         img.src = URL.createObjectURL(file);
         img.onload = () => {
             imageLoad();
-            generatePalette();
         }
     }
     //switch to palette section if screen is small and website is divided into two sections.
@@ -311,13 +308,14 @@ function uploadImage() {
 }
 
 /**
- * Draws img onto canvas.
+ * Draws img onto canvas and generates a palette from the image.
  */
 function imageLoad() {
     canvas.width = img.width;
     canvas.height = img.height;
 
     ctx.drawImage(img, 0, 0);
+    generatePalette();
 }
 
 /**
@@ -335,7 +333,11 @@ function validImageInput(file) {
     return true;
 }
 
-//converts the color thief input to a hex value for display.
+/**
+ * Converts rgb color input into a hex string.
+ * @param decimals the decimals capturing the rgb information.
+ * @returns {string} the hex-value of the input rgb value.
+ */
 function rgbToHex(decimals) {
     return `#${decimals.map((d) => d.toString(16).padStart(2, '0')).join('')}`;
 }

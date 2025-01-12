@@ -16,69 +16,70 @@
         <span>Palette Clone</span>
     </div>
     <div id="navbar">
-        <button id="generate-btn" class="navbar-btn selected" onclick="showSection('generate-container')">Generate</button>
+        <button id="generate-btn" class="navbar-btn selected" onclick="showSection('generate-container')">Generate
+        </button>
         <button id="palette-btn" class="navbar-btn" onclick="showSection('image-area-container')">Palette</button>
     </div>
 </header>
 <main id="app">
-        <div id="generate-container" class="section active">
-            <p id="explanatory-text">Upload an image and generate a color palette from it. Perfect if you want to
-                copy the style of a picture or drawing or make a custom image look like your favorite movie.</p>
-            <div class="image-drop-zone" id="image-drop-zone">
-                <h2>Drop the source image here</h2>
-            </div>
-            <input type="file" id="imageInput" accept="image/png, image/jpg, image/jpeg" hidden>
-            <label for="imageInput" id="choose-photo-btn" class="image-upload-button">
+    <div id="generate-container" class="section active">
+        <p id="explanatory-text">Upload an image and generate a color palette from it. Perfect if you want to
+            copy the style of a picture or drawing or make a custom image look like your favorite movie.</p>
+        <div class="image-drop-zone" id="image-drop-zone">
+            <h2>Drop the source image here</h2>
+        </div>
+        <input type="file" id="imageInput" accept="image/png, image/jpg, image/jpeg" hidden>
+        <label for="imageInput" id="choose-photo-btn" class="image-upload-button">
             <span class="material-symbols-outlined">
                 image
             </span>
-                Choose a Photo
-            </label>
-            <label id="capture-btn" class="image-upload-button">
+            Choose a Photo
+        </label>
+        <label id="capture-btn" class="image-upload-button">
             <span class="material-symbols-outlined">
                  photo_camera
             </span>
-                Use Camera
-            </label>
-            <h2>Generate Palette</h2>
-            <span class="generate-palette-text">Enter how many different colors you want in your palette. The number
+            Use Camera
+        </label>
+        <h2>Generate Palette</h2>
+        <span class="generate-palette-text">Enter how many different colors you want in your palette. The number
             needs to be between 1 and 15. If an invalid number is entered, it will be set to 5 per default.</span>
-            <label for="number-of-colors">
-            </label><input type="number" id="number-of-colors" min="1"
-                           max="15" value="5">
-            <button id="generate-palette-btn">Generate</button>
+        <label for="number-of-colors">
+        </label><input type="number" id="number-of-colors" min="1"
+                       max="15" value="5">
+        <button id="generate-palette-btn">Generate</button>
+    </div>
+    <div id="image-area-container" class="section">
+        <video id="camera" autoplay playsinline muted></video>
+        <div id="canvas-container">
+            <canvas id="image-canvas"></canvas>
         </div>
-        <div id="image-area-container" class="section">
-            <video id="camera" autoplay playsinline muted></video>
-            <div id="canvas-container">
-                <canvas id="image-canvas"></canvas>
-            </div>
-            <label id="take-photo-btn" class="image-upload-button">
+        <label id="take-photo-btn" class="image-upload-button">
             <span class="material-symbols-outlined">
                 add_a_photo
             </span>
-                Take Photo
-            </label>
-            <div id="palette-container">
-                <h2 class="h2-on-white">Color Palette</h2>
-                <div id="palette" class="palette">
-                </div>
-                <div id="extend-colors-container" class="extend-colors-container">
-                    <h2 class="h2-on-white">Extend Colors</h2>
-                    <div class="extend-colors-body">
-                        <p class="extend-colors-paragraph" >Select custom colors from the color picker.</p>
-                        <div class="add-color">
-                            <div id="add-color-btn">
+            Take Photo
+        </label>
+        <div id="palette-container">
+            <h2 class="h2-on-white">Color Palette</h2>
+            <div id="palette" class="palette">
+            </div>
+            <div id="extend-colors-container" class="extend-colors-container">
+                <h2 class="h2-on-white">Extend Colors</h2>
+                <div class="extend-colors-body">
+                    <p class="extend-colors-paragraph">Select custom colors from the color picker.</p>
+                    <div class="add-color">
+                        <div id="add-color-btn">
                             <span id="add-symbol" class="material-symbols-outlined">
                                 add
                             </span>
-                            </div>
-                            <span class="add-color-text">Add Color</span>
                         </div>
+                        <span class="add-color-text">Add Color</span>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     <div class="color-picker-container" id="color-picker-container">
         <h2 class="h2-on-white">Color Picker</h2>
         <div id="color-picker-menu" class="color-picker-menu">
