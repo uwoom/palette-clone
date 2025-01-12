@@ -153,7 +153,7 @@ function generatePalette() {
 
     if (img.complete) {
         if(1 === getNumberOfColors()) {
-            palette.appendChild(createPaletteColor(rgbToHex(colorThief.getColor(img))));
+            palette.appendChild(createPaletteColor(rgbToHex(colorThief.getColor(img, 1))));
         }
         else {
             const paletteColors = colorThief.getPalette(img, getNumberOfColors(), 1);
